@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NS Interior Studio AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">Transform Your Space with AI</div>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Design Ideas</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a href="#" class="login-btn">Login</a>
+            <a href="#" class="signup-btn">Sign Up</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-left">
+            <div class="badge"><i class="fa-solid fa-bolt"></i> AI-POWERED</div>
+            <h1>Design Your <span class="accent">Dream Room</span> with AI</h1>
+            <p>Upload a photo of your room and let our AI create stunning design suggestions for your space.</p>
+
+            <a href="/studio" class="start-btn">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="hero-right">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=700" alt="Sample room">
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-upload"></i></div>
+            <h3>Upload Room</h3>
+            <p>Upload a photo of your room</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+            <h3>AI Color Ideas</h3>
+            <p>Get wall colour suggestions</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-couch"></i></div>
+            <h3>Smart Layout</h3>
+            <p>AI suggests furniture layout</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
+            <h3>Budget Estimation</h3>
+            <p>Get estimated renovation cost</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <h3>Shopping List</h3>
+            <p>List of items you can buy</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"><i class="fa-solid fa-image"></i></div>
+            <h3>Before & After</h3>
+            <p>See the AI transformation</p>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="eyebrow">HOW IT WORKS</div>
+        <h2>Simple Steps to Stunning Spaces</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-circle">1</div>
+                <h4>Upload Room</h4>
+                <p>Upload a clear image of your room</p>
+            </div>
+            <div class="step">
+                <div class="step-circle">2</div>
+                <h4>AI Analysis</h4>
+                <p>Our AI analyzes your room's colours</p>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <h4>Get Suggestions</h4>
+                <p>Receive layout & colour suggestions</p>
+            </div>
+            <div class="step">
+                <div class="step-circle">4</div>
+                <h4>View & Download</h4>
+                <p>View results and your design report</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

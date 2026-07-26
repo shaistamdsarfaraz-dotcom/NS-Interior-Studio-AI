@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NS Interior Studio AI - Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">Transform Your Space with AI</div>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Design Ideas</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="studio-hero">
+        <div class="eyebrow">STEP 1</div>
+        <h1>Upload Your Room Photo</h1>
+        <p>Let our AI analyze your space and suggest a design.</p>
+
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="studio-upload-box">
+            <label class="upload-btn">
+                <i class="fa-solid fa-upload"></i> Choose Room Photo
+                <input type="file" name="room_photo" accept="image/*" required>
+            </label>
+            <button type="submit" class="start-btn">Analyze My Room <i class="fa-solid fa-arrow-right"></i></button>
+        </form>
+    </section>
+
+</body>
+</html>

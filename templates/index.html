@@ -4,29 +4,34 @@
     <title>NS Interior Studio AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
-            <div>
-                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-                <div class="logo-sub">Transform Your Space with AI</div>
-            </div>
+<nav class="navbar">
+    <div class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+        <div>
+            <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+            <div class="logo-sub">Transform Your Space with AI</div>
         </div>
-        <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Design Ideas</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+    </div>
+
+    <div class="nav-wrapper" id="nav-links">
+        <span class="nav-highlight" id="nav-highlight"></span>
+        <ul class="nav-links-list">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/design-ideas">Design Ideas</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
         </ul>
-        <div class="nav-buttons">
-            <a href="/login" class="login-btn">Login</a>
-            <a href="/login" class="signup-btn">Sign Up</a>
-        </div>
-    </nav>
+    </div>
+
+    <div class="nav-buttons">
+         <a href="/register" class="Register-btn">Register</a>
+    </div>
+</nav>
 
     <section class="hero">
         <div class="hero-left">
@@ -34,14 +39,17 @@
             <h1>Design Your <span class="accent">Dream Room</span> with AI</h1>
             <p>Upload a photo of your room and let our AI create stunning design suggestions for your space.</p>
 
-           <a href="/login" class="start-btn">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+           <a href="/register" class="start-btn">Get Started <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
-        <div class="hero-right">
-            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=700" alt="Sample room">
-        </div>
+           <div class="hero-right">
+             <div class="slideshow">
+                <img src="{{ url_for('static', filename='images/room-before.png') }}" class="slide active" alt="Before">
+                <img src="{{ url_for('static', filename='images/room-after.png') }}" class="slide" alt="After">
+             </div>
+           </div>
     </section>
-
+    
     <section class="features">
         <div class="feature">
             <div class="feature-icon"><i class="fa-solid fa-upload"></i></div>
@@ -102,6 +110,7 @@
             </div>
         </div>
     </section>
-
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us - NS Interior Studio AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">✨ Design Beyond Imagination</div>
+            </div>
+        </div>
+        <div class="nav-wrapper" id="nav-links">
+    <span class="nav-highlight" id="nav-highlight"></span>
+    <ul class="nav-links-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/design-ideas">Design Ideas</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
+</div>
+    
+    </nav>
+    <section class="design-smarter">
+    <div class="design-smarter-text">
+        <div class="eyebrow">ABOUT NS DESIGN AI</div>
+        <h2>Design Smarter.<br><span class="accent">Live</span> Better.</h2>
+        <p>NS Design AI is an intelligent interior design assistant that helps you transform your ideas into beautiful, functional, and affordable spaces using the power of AI.</p>
+        <p>We combine image processing, smart recommendations, and real-world budgeting to give you complete interior design guidance — all in one place.</p>
+        <div class="tagline">Design. Your Space. Your Way.</div>
+    </div>
+    <div class="design-smarter-image">
+        <img src="{{ url_for('static', filename='images/about-room.jpg') }}" alt="Interior">
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="mission-card">
+        <div class="mission-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Our Mission</h3>
+        <p>To empower every homeowner and design enthusiast with affordable, AI-powered tools that make interior design decisions easy, personalized, and inspiring.</p>
+    </div>
+    <div class="mission-card">
+        <div class="mission-icon"><i class="fa-solid fa-eye"></i></div>
+        <h3>Our Vision</h3>
+        <p>To become a trusted AI interior design platform that helps people create beautiful, comfortable spaces effortlessly, without needing a professional designer.</p>
+    </div>
+    <div class="mission-card">
+        <div class="mission-icon"><i class="fa-solid fa-gem"></i></div>
+        <h3>Our Values</h3>
+        <ul class="values-list">
+            <li><i class="fa-solid fa-check"></i> Simplicity in design</li>
+            <li><i class="fa-solid fa-check"></i> Innovation with purpose</li>
+            <li><i class="fa-solid fa-check"></i> Transparency & trust</li>
+            <li><i class="fa-solid fa-check"></i> Design for everyone</li>
+        </ul>
+    </div>
+</section>
+
+<section class="why-choose">
+    <h2>Why Choose NS Design AI?</h2>
+    <div class="why-grid">
+        <div class="why-card">
+            <div class="why-icon"><i class="fa-solid fa-palette"></i></div>
+            <h4>Smart Design Suggestions</h4>
+            <p>Get AI-powered colour schemes and furniture layouts that suit your room and style.</p>
+        </div>
+        <div class="why-card">
+            <div class="why-icon"><i class="fa-solid fa-calculator"></i></div>
+            <h4>Budget Friendly</h4>
+            <p>Receive accurate cost estimates and plan your renovation within budget.</p>
+        </div>
+        <div class="why-card">
+            <div class="why-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <h4>Ready Shopping List</h4>
+            <p>Get a curated list of furniture and decor items with direct shopping links.</p>
+        </div>
+        <div class="why-card">
+            <div class="why-icon"><i class="fa-solid fa-image"></i></div>
+            <h4>Realistic Visualization</h4>
+            <p>See the magic before it happens with AI-generated before-and-after previews.</p>
+        </div>
+    </div>
+</section>
+
+    <section class="team-header">
+    <div class="eyebrow"><h1>OUR TEAM</h1></div>
+    <h2>The founding team</h2>
+    </section>
+
+    <section class="team-section">
+    <div class="team-card" onclick="openBio('shaista')">
+        <img src="{{ url_for('static', filename='images/shaista.jpg') }}" alt="Shaista Mohammadi">
+        <div class="card-overlay">
+            <div class="card-name">SHAISTA MOHAMMADI</div>
+            <div class="card-bottom">
+                <span class="role-badge">CO-FOUNDER</span><br>
+                <span class="read-more">READ MORE</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="team-card" onclick="openBio('nida')">
+        <img src="{{ url_for('static', filename='images/nida.jpg') }}" alt="Nida Fathima">
+        <div class="card-overlay">
+            <div class="card-name">NIDA FATHIMA</div>
+            <div class="card-bottom">
+                <span class="role-badge">CO-FOUNDER</span><br>
+                <span class="read-more">READ MORE</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BIO MODAL -->
+<div class="bio-modal" id="bio-modal">
+    <div class="bio-box">
+        <span class="bio-close" onclick="closeBio()">&times;</span>
+        <h2 id="bio-name"></h2>
+        <p id="bio-text"></p>
+        <a id="bio-instagram" href="#" target="_blank" class="bio-social">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+    </div>
+</div>
+<section class="follow-section">
+    <div class="eyebrow-team"><h3>FOLLOW US ON</h3></div>
+    <h2>Stay Connected</h2>
+    <div class="follow-grid">
+        <a href="https://www.instagram.com/ns.interior_design_/" target="_blank" class="follow-btn">
+            <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+    </div>
+</section>
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+</body>
+</html>
+   

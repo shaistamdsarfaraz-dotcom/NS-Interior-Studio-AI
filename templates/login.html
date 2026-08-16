@@ -4,7 +4,8 @@
     <title>Login - NS Interior Studio AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
 
@@ -16,68 +17,52 @@
                 <div class="logo-sub">Transform Your Space with AI</div>
             </div>
         </div>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-        </ul>
+        <div class="nav-wrapper" id="nav-links">
+            <span class="nav-highlight" id="nav-highlight"></span>
+            <ul class="nav-links-list">
+                <li><a href="/">Home</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <section class="auth-section">
-        <div class="auth-box">
-            <div class="auth-tabs">
-                <button class="tab-btn active" onclick="showTab('login')">Login</button>
-                <button class="tab-btn" onclick="showTab('signup')">Sign Up</button>
+    <section class="login-section">
+        <div class="login-card">
+
+            <!-- LEFT: Blob panel -->
+            <div class="login-blob-side">
+                <h2>Hello, Welcome!</h2>
+                <p>Don't have an account?</p>
+                <a href="/register" class="ghost-btn">Register</a>
             </div>
 
-           <form action="/studio" method="GET" id="login-form" class="auth-form">
-    <label>EMAIL OR PHONE NUMBER</label>
-    <input type="text" placeholder="Email or phone number" required>
+            <!-- RIGHT: Form -->
+            <div class="login-form-side">
+                <h1>Login</h1>
+                <form id="login-form" onsubmit="return handleLogin();">
+                    <div class="input-box">
+                        <input type="text" id="login-email" placeholder="Username" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" id="login-pass" placeholder="Password" required>
+                        <i class="fa-solid fa-lock toggle-eye" onclick="togglePassword('login-pass', this)"></i>
+                    </div>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
 
-    <label>PASSWORD</label>
-    <div class="password-wrapper">
-        <input type="password" id="login-password" placeholder="••••••••" required>
-        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('login-password', this)"></i>
-    </div>
+                    <button type="submit" class="login-btn-main">Login</button>
 
-    <button type="submit" class="start-btn">Login</button>
-</form>
+                    <p class="social-text">or login with</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-google"></i></a>
+                       
+                    </div>
+                </form>
+            </div>
 
-<form action="/studio" method="GET" id="signup-form" class="auth-form" style="display:none;">
-    <label>NAME</label>
-    <input type="text" placeholder="Your Name" required>
-
-    <label>EMAIL OR PHONE NUMBER</label>
-    <input type="text" placeholder=" Email or phone number" required>
-
-    <label>PASSWORD</label>
-    <div class="password-wrapper">
-        <input type="password" id="signup-password" placeholder="Create a password" required>
-        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('signup-password', this)"></i>
-    </div>
-
-    <button type="submit" class="start-btn">Sign Up</button>
-</form>
         </div>
     </section>
-    <script>
-        function showTab(tab) {
-            document.getElementById('login-form').style.display = tab === 'login' ? 'flex' : 'none';
-            document.getElementById('signup-form').style.display = tab === 'signup' ? 'flex' : 'none';
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        function togglePassword(fieldId, icon) {
-        const field = document.getElementById(fieldId);
-        if (field.type === "password") {
-            field.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-        } else {
-            field.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-        }
-    }
-    </script>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 
 </body>
 </html>

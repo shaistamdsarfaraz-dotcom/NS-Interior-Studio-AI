@@ -20,8 +20,22 @@ def upload():
     save_path = os.path.join(app.config['UPLOAD_FOLDER'], photo.filename)
     photo.save(save_path)
     return f"Photo uploaded successfully! Saved as {photo.filename}"
-@app.route("/login")
+@app.route('/register')
+def register():
+    return render_template("register.html")
+@app.route('/login')
 def login():
     return render_template("login.html")
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/design-ideas")
+def design_ideas():
+    return render_template("design_ideas.html")
 if __name__ == "__main__":
     app.run(debug=True)

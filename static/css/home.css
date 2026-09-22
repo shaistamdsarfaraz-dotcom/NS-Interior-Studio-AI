@@ -105,3 +105,121 @@
 .slide.active {
   opacity: 1;
 }
+.chatbot-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.chatbot-bubble {
+  width: 60px;
+  height: 60px;
+  background: var(--navy);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+
+.chatbot-bubble:hover {
+  transform: scale(1.1);
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.chatbot-window {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 320px;
+  height: 420px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.chatbot-window.open {
+  display: flex;
+}
+
+.chatbot-header {
+  background: var(--navy);
+  color: white;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chatbot-header span {
+  cursor: pointer;
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+
+.bot-msg, .user-msg {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+.bot-msg {
+  background: white;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.user-msg {
+  background: var(--navy);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chatbot-input {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+  flex: 1;
+  border: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.chatbot-input input:focus {
+  outline: none;
+}
+
+.chatbot-input button {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 0 18px;
+  cursor: pointer;
+  font-size: 14px;
+}

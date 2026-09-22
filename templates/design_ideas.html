@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Ideas - NS Interior Studio AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/design-ideas.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">Transform Your Space with AI</div>
+            </div>
+        </div>
+        <div class="nav-wrapper" id="nav-links">
+            <span class="nav-highlight" id="nav-highlight"></span>
+            <ul class="nav-links-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/design-ideas" class="active">Design Ideas</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="ideas-hero">
+        <div class="ideas-hero-text">
+            <div class="breadcrumb"><a href="/">Home</a> &gt; Design Ideas</div>
+            <h1>Design Ideas</h1>
+            <h3>Explore stunning interior design ideas for every room and style. Get inspired and create your dream space.</h3>
+        </div>
+        <div class="slideshow">
+            <img src="{{ url_for('static', filename='images/design bf.png') }}" class="slide active" alt="Before">
+            <img src="{{ url_for('static', filename='images/design af.jpg') }}" class="slide" alt="After">
+        </div>
+    </section>
+      <section class="filter-bar">
+    <span class="filter-label">Filter by Room</span>
+    <div class="filter-chip active" data-filter="all" onclick="filterByRoom(this)"><i class="fa-solid fa-border-all"></i> All Rooms</div>
+    <div class="filter-chip" data-filter="living-room" onclick="filterByRoom(this)"><i class="fa-solid fa-couch"></i> Living Room</div>
+    <div class="filter-chip" data-filter="bedroom" onclick="filterByRoom(this)"><i class="fa-solid fa-bed"></i> Bedroom</div>
+    <div class="filter-chip" data-filter="kitchen" onclick="filterByRoom(this)"><i class="fa-solid fa-kitchen-set"></i> Kitchen</div>
+    <div class="filter-chip" data-filter="bathroom" onclick="filterByRoom(this)"><i class="fa-solid fa-bath"></i> Bathroom</div>
+</section>
+
+    <section class="styles-section">
+        <div class="section-header">
+            <h2>Popular Design Styles</h2>
+            <div class="header-actions">
+                <button class="view-favorites-btn" onclick="openFavoritesModal()">
+                    <i class="fa-solid fa-heart"></i>
+                    View Favorites
+                    <span id="favCount" class="fav-count">0</span>
+                </button>
+            </div>
+        </div>
+        <div class="styles-grid">
+    <!-- Modern Card -->
+    <div class="style-card" 
+         data-title="Modern" 
+         data-desc="Clean lines, neutral colors and minimal decor for a sleek look."
+         data-all="https://i.pinimg.com/736x/f7/7e/ed/f77eedcad25dd4b503da4231fb9e9cb7.jpg"
+         data-living-room="https://i.pinimg.com/736x/72/58/9a/72589a73478fb1129777b8852c71a8c2.jpg"
+         data-bedroom="https://i.pinimg.com/736x/d3/ee/a0/d3eea09349276c5c313b167a3dba7c5a.jpg"
+         data-kitchen="https://i.pinimg.com/736x/7c/4a/13/7c4a13d12d1c8557ec768d7bba848ce7.jpg"
+         data-bathroom="https://i.pinimg.com/736x/cc/19/d9/cc19d960a1ed0ffc089953870b22990d.jpg">
+        <img src="https://i.pinimg.com/736x/f7/7e/ed/f77eedcad25dd4b503da4231fb9e9cb7.jpg" alt="Modern" class="card-img">
+        <i class="fa-regular fa-heart heart-icon"></i>
+        <h4>Modern</h4>
+        <p>Clean lines, neutral colors and minimal decor for a sleek look.</p>
+    </div>
+
+    <!-- Minimalist Card -->
+    <div class="style-card" 
+         data-title="Minimalist" 
+         data-desc="Less is more. Simple, functional and clutter-free spaces."
+         data-all="https://i.pinimg.com/1200x/1d/57/2e/1d572e2e1a50eeacacb539f3e2eb86e9.jpg"
+         data-living-room="https://i.pinimg.com/1200x/dc/f7/ff/dcf7ffaec86c79960a10e8dd80194864.jpg"
+         data-bedroom="https://i.pinimg.com/1200x/5b/9b/a8/5b9ba8bc958531c77c6e554e771fc8ab.jpg"
+         data-kitchen="https://i.pinimg.com/736x/c7/38/df/c738df757f48f5a9a22cd6115ba4ef8f.jpg"
+         data-bathroom="https://i.pinimg.com/736x/08/90/25/089025f460395fac55cbba1a325ebc1a.jpg">
+        <img src="https://i.pinimg.com/1200x/1d/57/2e/1d572e2e1a50eeacacb539f3e2eb86e9.jpg" alt="Minimalist" class="card-img">   
+        <i class="fa-regular fa-heart heart-icon"></i>
+        <h4>Minimalist</h4>
+        <p>Less is more. Simple, functional and clutter-free spaces.</p>
+    </div>
+
+    <!-- Scandinavian Card -->
+    <div class="style-card" 
+         data-title="Scandinavian" 
+         data-desc="Light colors, natural materials and cozy hygge vibes."
+         data-all="https://i.pinimg.com/736x/72/ed/57/72ed5783528d540ecb6c5329c05d4549.jpg"
+         data-living-room="https://i.pinimg.com/736x/73/50/fd/7350fd7dc09f6856345aa5853087c5a5.jpg"
+         data-bedroom="https://i.pinimg.com/1200x/00/64/7e/00647e27ba011e9426438d999b4b19a6.jpg"
+         data-kitchen="https://i.pinimg.com/1200x/34/81/b3/3481b3afc23c39d06b66c690ac6022c7.jpg"
+         data-bathroom="https://i.pinimg.com/736x/c5/a6/eb/c5a6eb451b5691636e8759f4401dea53.jpg">
+        <img src="https://i.pinimg.com/736x/72/ed/57/72ed5783528d540ecb6c5329c05d4549.jpg" alt="Scandinavian" class="card-img">
+        <i class="fa-regular fa-heart heart-icon"></i>
+        <h4>Scandinavian</h4>
+        <p>Light colors, natural materials and cozy hygge vibes.</p>
+    </div>
+
+    <!-- Luxury Card -->
+    <div class="style-card" 
+         data-title="Luxury" 
+         data-desc="Elegant, rich materials and sophisticated designs."
+         data-all="https://i.pinimg.com/1200x/85/95/cf/8595cfb145c0ad3d82c42e921c0d538f.jpg"
+         data-living-room="https://i.pinimg.com/736x/fc/03/43/fc0343c14a0d99ca74853c646895a8e6.jpg"
+         data-bedroom="https://i.pinimg.com/736x/5c/f6/f7/5cf6f7b980a66374660de3c09bf22fbb.jpg"
+         data-kitchen="https://i.pinimg.com/1200x/09/b9/e6/09b9e6a31981d7513db5cce6af9f5f5b.jpg"
+         data-bathroom="https://i.pinimg.com/736x/1a/24/49/1a244972f0599f5073de014ffde5207f.jpg">
+        <img src="https://i.pinimg.com/1200x/85/95/cf/8595cfb145c0ad3d82c42e921c0d538f.jpg" alt="Luxury" class="card-img">
+        <i class="fa-regular fa-heart heart-icon"></i>
+        <h4>Luxury</h4>
+        <p>Elegant, rich materials and sophisticated designs.</p>
+    </div>
+</div>
+
+    <section class="palette-section">
+        <div class="section-header">
+            <h2>Trending Color Palettes</h2>
+            <a href="javascript:void(0)" class="view-all" onclick="openPaletteModal()">View All Palettes <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="palette-grid">
+            <div class="palette-card">
+                <div class="palette-name">Warm Earth</div>
+                <div class="swatch-row">
+                    <span style="background:#7B4B2A"></span>
+                    <span style="background:#B5763F"></span>
+                    <span style="background:#D9B48F"></span>
+                    <span style="background:#4A3222"></span>
+                </div>
+            </div>
+            <div class="palette-card">
+                <div class="palette-name">Sage Green</div>
+                <div class="swatch-row">
+                    <span style="background:#3F5B45"></span>
+                    <span style="background:#6B8F71"></span>
+                    <span style="background:#A8C3A4"></span>
+                    <span style="background:#C9CBB8"></span>
+                </div>
+            </div>
+            <div class="palette-card">
+                <div class="palette-name">Ocean Blue</div>
+                <div class="swatch-row">
+                    <span style="background:#1B3A5C"></span>
+                    <span style="background:#2E6BA8"></span>
+                    <span style="background:#89B4D9"></span>
+                    <span style="background:#C7DDEC"></span>
+                </div>
+            </div>
+            <div class="palette-card">
+                <div class="palette-name">Terracotta Touch</div>
+                <div class="swatch-row">
+                    <span style="background:#8C3B23"></span>
+                    <span style="background:#C1613C"></span>
+                    <span style="background:#E0A17E"></span>
+                    <span style="background:#F0D3BC"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorites Modal -->
+    <div class="modal-overlay" id="favoritesModal">
+        <div class="favorites-modal-content">
+            <div class="favorites-modal-header">
+                <h3><i class="fa-solid fa-heart"></i> Your Favorites</h3>
+                <span class="modal-close" onclick="closeFavoritesModal()"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div id="favoritesGrid" class="favorites-grid"></div>
+        </div>
+    </div>
+
+    <!-- Dynamic Style Modal Gallery -->
+    <div class="modal-overlay" id="styleModal">
+        <div class="style-modal-content">
+            <span class="modal-close" onclick="closeStyleModal()"><i class="fa-solid fa-xmark"></i></span>
+            <div class="style-modal-text">
+                <h3 id="styleModalTitle"></h3>
+                <p id="styleModalDesc"></p>
+            </div>
+            <div id="styleModalGallery" class="style-gallery-grid"></div>
+        </div>
+    </div>
+    <!-- All Palettes Modal -->
+<div class="modal-overlay" id="paletteModal">
+    <div class="palette-modal-content">
+        <span class="modal-close" onclick="closePaletteModal()"><i class="fa-solid fa-xmark"></i></span>
+        <h3>All Color Palettes</h3>
+        <div id="allPalettesGrid" class="all-palettes-grid"></div>
+    </div>
+</div>
+
+    <script src="{{ url_for('static', filename='js/design.js') }}"></script>
+</body>
+</html>

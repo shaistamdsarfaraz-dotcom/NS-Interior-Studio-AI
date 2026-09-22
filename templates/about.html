@@ -15,7 +15,7 @@
             <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
             <div>
                 <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-                <div class="logo-sub">✨ Design Beyond Imagination</div>
+                <div class="logo-sub"> Design Beyond Imagination</div>
             </div>
         </div>
         <div class="nav-wrapper" id="nav-links">
@@ -90,6 +90,110 @@
         </div>
     </div>
 </section>
+<section class="real-work-section" id="real-work">
+    <div class="real-work-heading">
+        <div class="eyebrow">OUR REAL WORK</div>
+        <h2>See the <span class="accent">Transformation</span></h2>
+        <p>Explore real before-and-after interior concepts created with NS Design AI.</p>
+    </div>
+
+    <div class="real-work-grid">
+        <article class="real-work-card">
+            <div class="work-card-topline">
+                <span><i class="fa-solid fa-couch"></i> Living Room</span>
+                <span class="ai-created-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Concept</span>
+            </div>
+            <div class="before-after-frame">
+                <div class="work-image before-image">
+                    <span class="work-label">BEFORE</span>
+                    <img src="{{ url_for('static', filename='images/living-room-before.jpeg') }}" alt="Living room before design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+                <div class="work-image after-image">
+                    <span class="work-label">AFTER</span>
+                    <img src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="Living room after AI design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+            </div>
+            <div class="work-card-footer">
+                <h3>Warm Modern Living Room</h3>
+                <p>A brighter, balanced layout with coordinated colours and improved furniture placement.</p>
+            </div>
+        </article>
+
+        <article class="real-work-card">
+            <div class="work-card-topline">
+                <span><i class="fa-solid fa-bed"></i> Bedroom</span>
+                <span class="ai-created-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Concept</span>
+            </div>
+            <div class="before-after-frame">
+                <div class="work-image before-image">
+                    <span class="work-label">BEFORE</span>
+                    <img src="{{ url_for('static', filename='images/bedroom-before.jpeg') }}" alt="Bedroom before design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+                <div class="work-image after-image">
+                    <span class="work-label">AFTER</span>
+                    <img src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="Bedroom after AI design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+            </div>
+            <div class="work-card-footer">
+                <h3>Calm Minimal Bedroom</h3>
+                <p>A restful palette, clearer circulation, and layered lighting for a more comfortable space.</p>
+            </div>
+        </article>
+
+        <article class="real-work-card">
+            <div class="work-card-topline">
+                <span><i class="fa-solid fa-utensils"></i> kitchen </span>
+                <span class="ai-created-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Concept</span>
+            </div>
+            <div class="before-after-frame">
+                <div class="work-image before-image">
+                    <span class="work-label">BEFORE</span>
+                    <img src="{{ url_for('static', filename='images/kitchen-before.jpeg') }}" alt="Dining room before design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+                <div class="work-image after-image">
+                    <span class="work-label">AFTER</span>
+                    <img src="{{ url_for('static', filename='images/kitchen-after.png') }}" alt="Dining room after AI design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+            </div>
+            <div class="work-card-footer">
+                <h3>Modern Kitchen Design</h3>
+                <p>A more welcoming kitchen with stronger visual focus and practical styling.</p>
+            </div>
+        </article>
+
+        <article class="real-work-card">
+            <div class="work-card-topline">
+                <span><i class="fa-solid fa-toilet"></i> Bathroom </span>
+                <span class="ai-created-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Concept</span>
+            </div>
+            <div class="before-after-frame">
+                <div class="work-image before-image">
+                    <span class="work-label">BEFORE</span>
+                    <img src="{{ url_for('static', filename='images/Bathroom-before.jpeg') }}" alt="Bathroom before design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+                <div class="work-image after-image">
+                    <span class="work-label">AFTER</span>
+                    <img src="{{ url_for('static', filename='images/Bathroom-after.png') }}" alt="Bathroom after AI design transformation">
+                    <button type="button" class="view-work-button"><i class="fa-solid fa-expand"></i> View Full Image</button>
+                </div>
+            </div>
+            <div class="work-card-footer">
+                <h3>Modern Bathroom Design</h3>
+                <p>A more welcoming bathroom with a clean visual and satisfying aesthetic.</p>
+            </div>
+        </article>
+    </div>
+    <a href="/studio" class="real-work-cta">
+        <i class="fa-solid fa-camera"></i> Create Your Own Transformation
+    </a>
+</section>
 
     <section class="team-header">
     <div class="eyebrow"><h1>OUR TEAM</h1></div>
@@ -98,7 +202,7 @@
 
     <section class="team-section">
     <div class="team-card" onclick="openBio('shaista')">
-        <img src="{{ url_for('static', filename='images/shaista.jpg') }}" alt="Shaista Mohammadi">
+        <img src="{{ url_for('static', filename='images/shaista.jpeg') }}" alt="Shaista Mohammadi">
         <div class="card-overlay">
             <div class="card-name">SHAISTA MOHAMMADI</div>
             <div class="card-bottom">
@@ -109,7 +213,7 @@
     </div>
 
     <div class="team-card" onclick="openBio('nida')">
-        <img src="{{ url_for('static', filename='images/nida.jpg') }}" alt="Nida Fathima">
+        <img src="{{ url_for('static', filename='images/nida.jpeg') }}" alt="Nida Fathima">
         <div class="card-overlay">
             <div class="card-name">NIDA FATHIMA</div>
             <div class="card-bottom">
@@ -142,6 +246,6 @@
 </section>
 <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
 <script src="{{ url_for('static', filename='js/about.js') }}"></script>
+
 </body>
 </html>
-   

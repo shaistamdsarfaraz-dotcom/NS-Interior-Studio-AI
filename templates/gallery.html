@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Gallery - NS Interior Studio AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}">
+</head>
+<body>
+    <main class="gallery-page">
+        <a class="gallery-back" href="/studio"><i class="fa-solid fa-arrow-left"></i> Back to Upload</a>
+
+        <header class="gallery-header">
+            <span class="gallery-eyebrow"><i class="fa-solid fa-sparkles"></i> Your design journey</span>
+            <h1>My <span>Design Gallery</span></h1>
+            <p>Compare your original rooms with their AI redesign concepts and revisit your favourite ideas.</p>
+        </header>
+
+        <section class="gallery-tip">
+            <div class="tip-icon"><i class="fa-solid fa-images"></i></div>
+            <div>
+                <strong>Your before-and-after designs live here</strong>
+                <p>Every successful room analysis is saved privately to your account so you can compare, save, and discuss your favourite transformation.</p>
+            </div>
+        </section>
+
+        <section class="gallery-grid">
+            {% for design in designs %}
+            <article class="design-card">
+                <div class="comparison-label"><i class="fa-solid fa-code-compare"></i> Before &amp; After</div>
+                <div class="comparison-grid">
+                    <div class="comparison-image">
+                        <span>Before</span>
+                        <img src="{{ url_for('static', filename=design.image_path) }}" alt="Original {{ design.room_type }}">
+                    </div>
+                    <div class="comparison-image after-image">
+                        <span>AI Concept</span>
+                        <img src="{{ url_for('static', filename=('generated/' + design.generated_image_path) if design.generated_image_path else design.image_path) }}" alt="AI redesigned {{ design.room_type }}">
+                    </div>
+                </div>
+                <div class="design-info">
+                    <div>
+                        <h2>{{ design.room_type }}</h2>
+                        <p class="design-date"><i class="fa-regular fa-calendar"></i> {{ design.date_created }}</p>
+                    </div>
+                    <span class="design-budget">{{ design.estimated_cost }}</span>
+                </div>
+                <div class="design-actions">
+                    <a href="{{ url_for('static', filename=('generated/' + design.generated_image_path) if design.generated_image_path else design.image_path) }}" target="_blank" rel="noopener noreferrer" class="view-btn"><i class="fa-solid fa-expand"></i> View Design</a>
+                    <a href="/delete_design/{{ design.id }}" class="delete-btn" onclick="return confirm('Delete this saved design?')"><i class="fa-regular fa-trash-can"></i> Delete</a>
+                </div>
+            </article>
+            {% else %}
+            <div class="empty-gallery">
+                <i class="fa-regular fa-images"></i>
+                <h2>Your gallery is waiting</h2>
+                <p>Upload a room photo and generate your first AI before-and-after design.</p>
+                <a href="/studio" class="view-btn">Create My First Design</a>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>

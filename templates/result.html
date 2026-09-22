@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Room Analysis - NS Design AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+    <style>
+        .analysis-wide-card { margin-top: 24px; padding: 24px; background: #fff; border-radius: 18px; box-shadow: 0 8px 28px rgba(72, 48, 130, .08); }
+        .analysis-wide-card h2 { margin: 0 0 8px; color: var(--navy, #33255d); }
+        .analysis-wide-card h3 { margin: 22px 0 10px; color: var(--navy, #33255d); font-size: 17px; }
+        .analysis-subtitle { margin: 0 0 18px; color: #817b96; font-size: 13px; }
+        .analysis-status { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 18px; padding: 7px 11px; border-radius: 18px; background: #e8f8ef; color: #31855e; font-size: 12px; font-weight: 600; }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 14px; }
+        .color-result { display: flex; align-items: center; gap: 12px; padding: 13px; background: #faf9ff; border: 1px solid #ebe7f7; border-radius: 13px; }
+        .color-preview { width: 58px; height: 58px; flex: 0 0 58px; border-radius: 11px; border: 1px solid rgba(0,0,0,.12); }
+        .color-details { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+        .color-details strong { color: #463573; font-size: 13px; }
+        .color-details span, .color-details small { color: #77718e; font-size: 11px; line-height: 1.3; }
+        .object-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; }
+        .object-result { display: flex; flex-direction: column; gap: 5px; padding: 14px; background: #faf9ff; border: 1px solid #ebe7f7; border-radius: 13px; }
+        .object-result-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .object-result strong { color: #463573; font-size: 13px; }
+        .object-result span { color: #77718e; font-size: 11px; }
+        .confidence { padding: 3px 7px; border-radius: 14px; background: #e8f8ef; color: #31855e !important; font-weight: 700; white-space: nowrap; }
+        .observation-list { display: grid; gap: 8px; margin: 10px 0 0; padding-left: 20px; color: #625c77; font-size: 13px; line-height: 1.55; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag-list span { padding: 6px 10px; border-radius: 18px; background: #eee8ff; color: #624499; font-size: 11px; }
+        .layout-grid .layout-card p { margin-top: 6px; }
+        @media (max-width: 600px) { .analysis-wide-card { padding: 17px; } .color-grid, .object-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">Transform Your Space with AI</div>
+            </div>
+        </div>
+        <div class="nav-wrapper" id="nav-links">
+            <span class="nav-highlight" id="nav-highlight"></span>
+            <ul class="nav-links-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/design-ideas">Design Ideas</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="result-hero">
+        <div class="eyebrow">STEP 2</div>
+        <h1>Your Room Analysis</h1>
+        <p>Here's what our AI detected, and what we recommend.</p>
+        <a href="/studio" class="back-upload-button">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Upload Your Room Photo
+        </a>
+        <div class="gallery-reminder">
+            <i class="fa-solid fa-images"></i>
+            <span><strong>Your before-and-after comparison is saved in Gallery.</strong> Open Gallery anytime to revisit this room transformation.</span>
+            <a href="/gallery">View Gallery <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <main class="result-container">
+        <section class="result-visuals">
+            <div class="visual-card">
+                <h3>Original Space</h3>
+                <img id="uploadedRoomImage" src="{{ url_for('static', filename='uploads/' + image_file) }}" alt="Uploaded room photo">
+                <button id="viewFullImage" type="button" class="image-view-button">View Full Image</button>
+            </div>
+
+            {% if generated_image %}
+            <div class="visual-card">
+                <h3>AI Redesign Concept</h3>
+                <img src="{{ url_for('static', filename='generated/' + generated_image) }}" alt="AI generated room redesign">
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="result-summary">
+            <div class="summary-card">
+                <h3><i class="fa-solid fa-palette"></i> Detected Room Palette</h3>
+                <p class="analysis-subtitle">Every meaningful color detected in the uploaded photo.</p>
+
+                {% if color_palette %}
+                <div class="color-grid">
+                    {% for color in color_palette %}
+                    <article class="color-result">
+                        <div class="color-preview swatch-box" data-color="{{ color.hex }}"></div>
+                        <div class="color-details">
+                            <strong>{{ color.name|default('Detected color') }}</strong>
+                            <span>{{ color.hex|default('HEX unavailable') }}</span>
+                            {% if color.rgb %}<span>{{ color.rgb }}</span>{% endif %}
+                            {% if color.percentage is defined %}<span>{{ color.percentage }}% of image</span>{% endif %}
+                            {% if color.category %}<small>{{ color.category }}</small>{% endif %}
+                            {% if color.location %}<small>{{ color.location }}</small>{% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="color-row">
+                    <div class="swatch-box" data-color="{{ detected_color_hex }}"></div>
+                    <div><strong>{{ color_name }}</strong><span class="color-tag">{{ color_tag }}</span></div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="summary-card">
+                <h3><i class="fa-solid fa-house-chimney"></i> Detailed Room Analysis</h3>
+                <ul class="analysis-list">
+                    <li><i class="fa-solid fa-shapes"></i> Room Type <span>{{ room_type }}</span></li>
+                    <li><i class="fa-solid fa-ruler-combined"></i> Room Size <span>{{ room_size_estimate }}</span></li>
+                    <li><i class="fa-solid fa-sun"></i> Lighting <span>{{ lighting_level }}</span></li>
+                    <li><i class="fa-solid fa-compass-drafting"></i> Design Style <span>{{ design_style|default(architectural_style) }}</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="analysis-wide-card">
+            <div class="analysis-status"><i class="fa-solid fa-circle-check"></i> {% if analysis_source == 'ai' %}AI analysis complete{% else %}Computer-vision fallback analysis{% endif %}</div>
+            <h2>Complete Visual Breakdown</h2>
+            <p class="analysis-subtitle">Furniture, decor, materials, architecture, and design observations from your image.</p>
+
+            {% if detected_objects %}
+            <h3><i class="fa-solid fa-object-group"></i> Everything Detected in the Room</h3>
+            <div class="object-grid">
+                {% for object in detected_objects %}
+                <article class="object-result">
+                    {% if object.name is defined %}
+                    <div class="object-result-top">
+                        <strong>{{ object.name }}</strong>
+                        {% if object.confidence is defined %}<span class="confidence">{{ (object.confidence * 100)|round }}%</span>{% endif %}
+                    </div>
+                    {% if object.category %}<span>Category: {{ object.category }}</span>{% endif %}
+                    {% if object.location %}<span>Location: {{ object.location }}</span>{% endif %}
+                    {% if object.condition %}<span>Material/condition: {{ object.condition }}</span>{% endif %}
+                    {% else %}
+                    <strong>{{ object }}</strong>
+                    {% endif %}
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="analysis-subtitle">No object list was returned. Confirm that GEMINI_API_KEY is enabled and try the upload again.</p>
+            {% endif %}
+
+            {% if design_observations %}
+            <h3><i class="fa-solid fa-magnifying-glass"></i> Design Observations</h3>
+            <ul class="observation-list">
+                {% for observation in design_observations %}<li>{{ observation }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if materials %}
+            <h3><i class="fa-solid fa-layer-group"></i> Materials</h3>
+            <div class="tag-list">{% for material in materials %}<span>{{ material }}</span>{% endfor %}</div>
+            {% endif %}
+
+            {% if architectural_elements %}
+            <h3><i class="fa-solid fa-building"></i> Architectural Elements</h3>
+            <div class="tag-list">{% for element in architectural_elements %}<span>{{ element }}</span>{% endfor %}</div>
+            {% endif %}
+        </section>
+
+        <section class="result-colors">
+            <h3>Recommended Color Palette</h3>
+            {% if ai_analysis and ai_analysis.recommendedColors %}
+            <div class="color-grid">
+                {% for color in ai_analysis.recommendedColors %}
+                <article class="color-result">
+                    <div class="color-preview swatch-box" data-color="{{ color.hex }}"></div>
+                    <div class="color-details">
+                        <strong>{{ color.name }}</strong>
+                        <span>{{ color.hex }}</span>
+                        {% if color.rgb %}<span>{{ color.rgb }}</span>{% endif %}
+                        {% if color.reason %}<small>{{ color.reason }}</small>{% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="color-row"><div class="swatch-box" data-color="{{ recommendations.complementary }}"></div><div><strong>Complementary Accent</strong><span>{{ recommendations.complementary }}</span></div></div>
+            <div class="color-row"><div class="swatch-box" data-color="{{ recommendations.analogous1 }}"></div><div><strong>Harmonious Tone 1</strong><span>{{ recommendations.analogous1 }}</span></div></div>
+            <div class="color-row"><div class="swatch-box" data-color="{{ recommendations.analogous2 }}"></div><div><strong>Harmonious Tone 2</strong><span>{{ recommendations.analogous2 }}</span></div></div>
+            {% endif %}
+        </section>
+
+        <section class="result-layout">
+            <h2>Suggested Layout for Your {{ room_type }}</h2>
+            <div class="layout-grid">
+                {% for item in layout_suggestions %}
+                <div class="layout-card">
+                    {% if item.title is defined %}
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.description|default(item.tip|default('')) }}</p>
+                    {% else %}
+                    <h4>Layout Suggestion {{ loop.index }}</h4>
+                    <p>{{ item }}</p>
+                    {% endif %}
+                </div>
+                {% else %}
+                <p>No specific layout tips available for this room type yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% if cost_data %}
+        <section class="result-cost-shopping">
+            <div class="cost-summary-card">
+                <h2>Estimated Renovation Budget</h2>
+                <div class="total-price">{{ cost_data.total_estimated }}</div>
+                <p class="price-range">Your selected budget range: {{ cost_data.min_range }} – {{ cost_data.max_range }}</p>
+                <p class="price-range">Planned design estimate: {{ cost_data.total_estimated }}</p>
+            </div>
+
+            <div class="shopping-list-card">
+                <h2>Recommended Shopping Items</h2>
+                <ul class="shopping-items">
+                    {% for item in shopping_list %}
+                    <li class="shopping-item">
+                        <div class="item-info"><span class="item-category">{{ item.category }}</span><span class="item-name">{{ item.name }}</span></div>
+                        <div class="item-action"><span class="item-price">{{ item.price }}</span><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" class="shop-btn">Buy Item <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% endif %}
+
+        <div class="result-actions"><a href="/studio" class="start-btn"><i class="fa-solid fa-camera"></i> Try Another Photo</a></div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+</body>
+</html>

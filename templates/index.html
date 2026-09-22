@@ -109,8 +109,31 @@
                 <p>View results and your design report</p>
             </div>
         </div>
+        <div class="chatbot-widget">
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+            <div>
+                <i class="fa-solid fa-robot"></i> NS Design Assistant
+            </div>
+            <span onclick="toggleChatbot()"><i class="fa-solid fa-xmark"></i></span>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="bot-msg">Hi! 👋 I'm here to help. Ask me about uploading a room photo, colour suggestions, cost estimates, or anything else about NS Design AI.</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="chatbot-bubble" onclick="toggleChatbot()">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+</div>
     </section>
     <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
 </body>
 </html>

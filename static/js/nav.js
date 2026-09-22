@@ -1,3 +1,4 @@
+(function() {
     const navLinks = document.querySelectorAll('#nav-links li');
     const highlight = document.getElementById('nav-highlight');
 
@@ -9,5 +10,4 @@
             highlight.style.width = rect.width + 'px';
         });
     });
-
-    
+})();

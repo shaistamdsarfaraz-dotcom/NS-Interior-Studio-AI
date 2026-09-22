@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NS Interior Studio AI - Profile Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/studio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+<div class="studio-layout">
+    <!-- SIDEBAR -->
+    <aside class="studio-sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+            <div>
+                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
+                <div class="logo-sub">AI Interior Design Assistant</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/design-ideas" class="sidebar-link"><i class="fa-regular fa-lightbulb"></i> Design Ideas</a>
+            <a href="/budget-planner" class="sidebar-link"><i class="fa-solid fa-table-cells"></i> Budget Planner</a>
+            <a href="/gallery" class="sidebar-link"><i class="fa-regular fa-image"></i> Gallery</a>
+            <a href="/about" class="sidebar-link"><i class="fa-regular fa-circle-question"></i> About</a>
+            <a href="/contact" class="sidebar-link"><i class="fa-regular fa-envelope"></i> Contact</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="studio-main">
+        <!-- TOPBAR -->
+        <header class="studio-topbar">
+            <span></span>
+            <div class="user-chip-container">
+                <div class="user-chip" id="userChip">
+                    {% if user.avatar %}
+                        <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" alt="user" class="topbar-avatar">
+                    {% else %}
+                        <div class="topbar-avatar-icon"><i class="fa-solid fa-user"></i></div>
+                    {% endif %}
+                    <span>Hello, {{ user.full_name }}</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="/profile" class="dropdown-item">
+                        <i class="fa-regular fa-user"></i> Profile Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="dropdown-item logout-item">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </header>
+
+       <!-- PROFILE CONTENT -->
+<div class="profile-container">
+    <div class="breadcrumb">
+        <i class="fa-solid fa-house"></i> &gt; <span>PROFILE SETTINGS</span>
+    </div>
+
+    <h1 class="page-title">Your Profile</h1>
+    <p class="page-subtitle">Manage your personal information and account settings.</p>
+
+    <div class="profile-layout-stacked">
+        <!-- TOP CARD: MAIN EDIT FORM -->
+        <div class="profile-card main-card">
+            <!-- PROFILE HEADER -->
+            <div class="profile-header">
+                <div class="avatar-wrap">
+                    {% if user.avatar %}
+                        <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" alt="Profile Picture" class="profile-avatar" id="avatarPreview">
+                    {% else %}
+                        <div class="profile-avatar placeholder-avatar" id="avatarPreview">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="header-info">
+                    <h2>{{ user.full_name }}</h2>
+                    <p class="user-email"><i class="fa-regular fa-envelope"></i> {{ user.email }}</p>
+                    
+                    <div class="photo-action-buttons">
+                        <label for="avatarUpload" class="btn-edit-photo">
+                            <i class="fa-solid fa-camera"></i> Change Photo
+                        </label>
+                        <input type="file" id="avatarUpload" name="avatar" form="profileForm" hidden accept="image/*" onchange="document.getElementById('profileForm').submit();">
+                        
+                        {% if user.avatar %}
+                        <button type="submit" name="remove_avatar" value="true" form="profileForm" class="btn-remove-photo">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE FORM -->
+            <form action="/profile" method="POST" id="profileForm" enctype="multipart/form-data" class="profile-form">
+                <h3 class="section-heading">Personal Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <div class="input-with-icon">
+                            <i class="fa-regular fa-user"></i>
+                            <input type="text" name="full_name" value="{{ user.full_name }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <div class="input-with-icon">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" name="email" value="{{ user.email }}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-phone"></i>
+                            <input
+    type="tel"
+    id="phone"
+    name="phone"
+    placeholder="+91 98765 43210"
+    value="{{ user.phone if user.phone else '+91 ' }}"
+    pattern="^\+91 [6-9][0-9]{9}$"
+    maxlength="14"
+    title="Enter a valid Indian number, for example +91 98765 43210"
+    required
+>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <input type="text" name="location" value="{{ user.location }}" placeholder="City, Country">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save"><i class="fa-solid fa-check"></i> Save Changes</button>
+                    <a href="/" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- BOTTOM CARD: LOG OUT / ACCOUNT SETTINGS -->
+        <div class="profile-card bottom-card">
+            <h3>Account Settings</h3>
+            <hr class="card-divider">
+
+            <a href="/logout" class="setting-item danger-link">
+                <div class="setting-text">
+                    <div class="setting-title"><i class="fa-solid fa-right-from-bracket"></i> Log Out</div>
+                    <p>Sign out of your account on this device.</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+    </div>
+    
+<script src="{{ url_for('static', filename='js/studio.js') }}"></script>
+</body>
+</html>

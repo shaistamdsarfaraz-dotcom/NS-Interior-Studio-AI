@@ -1,84 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - NS Interior Studio AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login - NS Interior Studio AI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
-            <div>
-                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-                <div class="logo-sub">Transform Your Space with AI</div>
-            </div>
-        </div>
-        <div class="nav-wrapper" id="nav-links">
-            <span class="nav-highlight" id="nav-highlight"></span>
-            <ul class="nav-links-list">
-                <li><a href="/">Home</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="login-section">
-        <div class="login-card">
-
-            <!-- LEFT: Blob panel -->
-            <div class="login-blob-side">
-                <h2>Hello, Welcome!</h2>
-                <p>Don't have an account?</p>
-                <a href="/register" class="ghost-btn">Register</a>
-            </div>
-
-            <!-- RIGHT: Form -->
-            <div class="login-form-side">
-                <h1>Login</h1>
-                <form id="login-form" onsubmit="return handleLogin();">
-                    <div class="input-box">
-                        <input type="email" id="login-email" placeholder="Email" required>
-                        <i class="fa-solid fa-envelope"></i>
-                    </div>
-                    <div class="input-box">
-                        <input type="password" id="login-pass" placeholder="Password" required>
-                        <i class="fa-solid fa-lock toggle-eye" onclick="togglePassword('login-pass', this)"></i>
-                    </div>
-                    
-                    <!-- Updated trigger link -->
-                    <a href="javascript:void(0)" class="forgot-link" onclick="openResetModal()">Forgot Password?</a>
-
-                    <button type="submit" class="login-btn-main">Login</button>
-                </form>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Forgot Password Modal -->
-    <div id="reset-modal" class="modal-overlay">
-        <div class="modal-card">
-            <span class="close-modal" onclick="closeResetModal()">&times;</span>
-            <h2>Reset Password</h2>
-            <p>Enter your registered email and your new password.</p>
-            <form onsubmit="return handleResetPassword();">
-                <div class="input-box">
-                    <input type="email" id="reset-email" placeholder="Registered Email" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="reset-pass" placeholder="New Password" required>
-                    <i class="fa-solid fa-lock toggle-eye" onclick="togglePassword('reset-pass', this)"></i>
-                </div>
-                <button type="submit" class="login-btn-main">Update Password</button>
-            </form>
-        </div>
+<div class="bg-stage">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/kitchen-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/Bathroom-after.png') }}" alt="">
+  <div class="bg-shade"></div><div class="beam"></div><div class="beam b2"></div>
+  {% for i in range(18) %}<i class="dust" data-index="{{ i }}"></i>{% endfor %}
+</div>
+{% include '_nav.html' %}
+ 
+<section class="auth-section">
+  <div class="auth-card">
+    <div class="showcase">
+      <img class="showcase-img" src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="">
+      <div class="show-mark">NS</div>
+      <h2>Welcome <em>back.</em></h2>
+      <p>Pick up your room redesigns right where you left them.</p>
+      <a href="/register" class="ghost-btn">Register <i class="fa-solid fa-arrow-right"></i></a>
     </div>
-
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-
+    <div class="form-side">
+      <div class="eyebrow on-dark">LOGIN</div>
+      <h1>Sign in</h1>
+      <form id="login-form" onsubmit="return handleLogin();">
+        <div class="field"><input type="email" id="login-email" placeholder=" " required><label>Email</label><i class="fa-solid fa-envelope"></i></div>
+        <div class="field"><input type="password" id="login-pass" placeholder=" " required><label>Password</label><i class="fa-solid fa-lock" onclick="togglePassword('login-pass', this)"></i></div>
+        <a href="javascript:void(0)" class="forgot-link" onclick="openResetModal()">Forgot Password?</a>
+        <button type="submit" class="main-btn">LOGIN</button>
+      </form>
+    </div>
+  </div>
+</section>
+ 
+<div id="reset-modal" class="modal-overlay">
+  <div class="modal-card">
+    <span class="close-modal" onclick="closeResetModal()">&times;</span>
+    <h2>Reset Password</h2>
+    <p>Enter your registered email and your new password.</p>
+    <form onsubmit="return handleResetPassword();">
+      <div class="field"><input type="email" id="reset-email" placeholder=" " required><label>Registered Email</label><i class="fa-solid fa-envelope"></i></div>
+      <div class="field"><input type="password" id="reset-pass" placeholder=" " required><label>New Password</label><i class="fa-solid fa-lock" onclick="togglePassword('reset-pass', this)"></i></div>
+      <button type="submit" class="main-btn">UPDATE PASSWORD</button>
+    </form>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

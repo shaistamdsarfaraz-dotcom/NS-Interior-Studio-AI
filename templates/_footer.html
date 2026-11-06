@@ -1,0 +1,17 @@
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>NS Design AI</h3>
+      <p>An AI-assisted interior design platform for living rooms, bedrooms, kitchens and bathrooms in Modern, Minimalist, Scandinavian and Luxury styles.</p>
+    </div>
+    <div><h4>Explore</h4><ul>
+      <li><a href="/">Home</a></li><li><a href="/design-ideas">Design Ideas</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul></div>
+    {% if session.get('user_id') %}
+    <div><h4>Tools</h4><ul>
+      <li><a href="/studio">AI Design Studio</a></li><li><a href="/budget-planner">Budget Planner</a></li><li><a href="/gallery">My Gallery</a></li></ul></div>
+    {% endif %}
+    <div><h4>Follow</h4><ul>
+      <li><a href="https://www.instagram.com/ns.interior_design_/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© NS Design AI</span><span>Living Room · Bedroom · Kitchen · Bathroom</span></div>
+</footer>

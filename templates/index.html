@@ -1,139 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>NS Interior Studio AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NS Design AI – Reimagine Your Space</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
-
-<nav class="navbar">
-    <div class="logo">
-        <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
-        <div>
-            <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-            <div class="logo-sub">Transform Your Space with AI</div>
-        </div>
+<div class="progress"></div>
+{% include '_nav.html' %}
+ 
+<section class="hero">
+  <div class="hero-bg">
+    <!-- Optional: add static/videos/hero.mp4 for a real video background -->
+    <video autoplay muted loop playsinline onerror="this.remove()"><source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4"></video>
+    <img class="hero-slide" data-room="Living Room" src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="Redesigned living room">
+    <img class="hero-slide" data-room="Bedroom" src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="Redesigned bedroom">
+    <img class="hero-slide" data-room="Kitchen" src="{{ url_for('static', filename='images/kitchen-after.png') }}" alt="Redesigned kitchen">
+    <img class="hero-slide" data-room="Bathroom" src="{{ url_for('static', filename='images/Bathroom-after.png') }}" alt="Redesigned bathroom">
+  </div>
+  <div class="hero-content">
+    <div class="eyebrow on-dark" style="animation:fade 1s .2s both">AI interior design assistant</div>
+    <h1>
+      <span class="line"><span class="w" style="--w:0">Reimagine</span></span>
+      <span class="line"><span class="w" style="--w:1">Your</span> <span class="w" style="--w:2"><em>Space.</em></span></span>
+    </h1>
+    <p class="hero-sub">Upload a photo of your room. NS Design AI reads its colours and objects, suggests palettes and layouts, estimates a budget and generates a redesigned version.</p>
+    <div class="hero-cta">
+      <a href="{{ '/studio' if session.get('user_id') else '/register' }}" class="btn btn-primary">Redesign Your Room <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="/design-ideas" class="btn btn-ghost">Explore Design Ideas</a>
     </div>
-
-    <div class="nav-wrapper" id="nav-links">
-        <span class="nav-highlight" id="nav-highlight"></span>
-        <ul class="nav-links-list">
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/design-ideas">Design Ideas</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-    </div>
-
-    <div class="nav-buttons">
-         <a href="/register" class="Register-btn">Register</a>
-    </div>
-</nav>
-
-    <section class="hero">
-        <div class="hero-left">
-            <div class="badge"><i class="fa-solid fa-bolt"></i> AI-POWERED</div>
-            <h1>Design Your <span class="accent">Dream Room</span> with AI</h1>
-            <p>Upload a photo of your room and let our AI create stunning design suggestions for your space.</p>
-
-           <a href="/register" class="start-btn">Get Started <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-
-           <div class="hero-right">
-             <div class="slideshow">
-                <img src="{{ url_for('static', filename='images/room-before.png') }}" class="slide active" alt="Before">
-                <img src="{{ url_for('static', filename='images/room-after.png') }}" class="slide" alt="After">
-             </div>
-           </div>
-    </section>
-    
-    <section class="features">
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-upload"></i></div>
-            <h3>Upload Room</h3>
-            <p>Upload a photo of your room</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
-            <h3>AI Color Ideas</h3>
-            <p>Get wall colour suggestions</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-couch"></i></div>
-            <h3>Smart Layout</h3>
-            <p>AI suggests furniture layout</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
-            <h3>Budget Estimation</h3>
-            <p>Get estimated renovation cost</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-            <h3>Shopping List</h3>
-            <p>List of items you can buy</p>
-        </div>
-        <div class="feature">
-            <div class="feature-icon"><i class="fa-solid fa-image"></i></div>
-            <h3>Before & After</h3>
-            <p>See the AI transformation</p>
-        </div>
-    </section>
-
-    <section class="how-it-works">
-        <div class="eyebrow">HOW IT WORKS</div>
-        <h2>Simple Steps to Stunning Spaces</h2>
-
-        <div class="steps">
-            <div class="step">
-                <div class="step-circle">1</div>
-                <h4>Upload Room</h4>
-                <p>Upload a clear image of your room</p>
-            </div>
-            <div class="step">
-                <div class="step-circle">2</div>
-                <h4>AI Analysis</h4>
-                <p>Our AI analyzes your room's colours</p>
-            </div>
-            <div class="step">
-                <div class="step-circle">3</div>
-                <h4>Get Suggestions</h4>
-                <p>Receive layout & colour suggestions</p>
-            </div>
-            <div class="step">
-                <div class="step-circle">4</div>
-                <h4>View & Download</h4>
-                <p>View results and your design report</p>
-            </div>
-        </div>
-        <div class="chatbot-widget">
-    <div class="chatbot-window" id="chatbotWindow">
-        <div class="chatbot-header">
-            <div>
-                <i class="fa-solid fa-robot"></i> NS Design Assistant
-            </div>
-            <span onclick="toggleChatbot()"><i class="fa-solid fa-xmark"></i></span>
-        </div>
-        <div class="chatbot-messages" id="chatbotMessages">
-            <div class="bot-msg">Hi! 👋 I'm here to help. Ask me about uploading a room photo, colour suggestions, cost estimates, or anything else about NS Design AI.</div>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" id="chatbotInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <div class="chatbot-bubble" onclick="toggleChatbot()">
-        <i class="fa-solid fa-comment-dots"></i>
-    </div>
-</div>
-    </section>
-    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
-
+  </div>
+  <div class="hero-meta">
+    <div class="hero-ticks"><button aria-label="Living Room"><i></i></button><button aria-label="Bedroom"><i></i></button><button aria-label="Kitchen"><i></i></button><button aria-label="Bathroom"><i></i></button></div>
+    <div class="hero-name" id="hero-name"></div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+ 
+<div class="ribbon" aria-hidden="true"><div class="ribbon-track">
+  {% for i in range(2) %}<span>Living Room</span><i class="fa-solid fa-diamond"></i><span>Bedroom</span><i class="fa-solid fa-diamond"></i><span>Kitchen</span><i class="fa-solid fa-diamond"></i><span>Bathroom</span><i class="fa-solid fa-diamond"></i><span>Modern</span><i class="fa-solid fa-diamond"></i><span>Minimalist</span><i class="fa-solid fa-diamond"></i><span>Scandinavian</span><i class="fa-solid fa-diamond"></i><span>Luxury</span><i class="fa-solid fa-diamond"></i>{% endfor %}
+</div></div>
+ 
+<section class="caps">
+  <div class="sec-head reveal"><div class="eyebrow on-dark">What it does</div><h2>From one photo to a <em>new room</em></h2><p>Six tools, one workflow, built around the four rooms and four styles of the studio.</p></div>
+  <div class="bento">
+    <article class="cap img c1 reveal">
+      <img src="{{ url_for('static', filename='images/living-room-before.jpeg') }}" alt=""><div class="scan"></div>
+      <span class="num">01</span><div class="ico"><i class="fa-solid fa-expand"></i></div>
+      <h3>Analyse your room</h3><p>OpenCV reads the wall colour and lighting while object detection finds the furniture in your photo.</p>
+    </article>
+    <article class="cap c2 reveal" style="--i:1">
+      <span class="num">02</span><div class="ico"><i class="fa-solid fa-palette"></i></div>
+      <div class="swatches"><span style="background:#29211D"></span><span style="background:#AD8964"></span><span style="background:#E8DED0"></span><span style="background:#89947A"></span><span style="background:#F6F1E9"></span></div>
+      <h3>Discover colour recommendations</h3><p>Get a palette matched to your room and your chosen style.</p>
+    </article>
+    <article class="cap c3 reveal">
+      <span class="num">03</span><div class="ico"><i class="fa-solid fa-couch"></i></div>
+      <h3>Furniture &amp; layout ideas</h3><p>Practical suggestions for placement, circulation and focal points.</p>
+    </article>
+    <article class="cap img c4 reveal" style="--i:1">
+      <img src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="">
+      <span class="num">04</span><div class="ico"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <h3>Generate a redesign</h3><p>See your own room again, restyled, in a before-and-after view.</p>
+    </article>
+    <article class="cap c5 reveal" style="--i:2">
+      <span class="num">05</span><div class="ico"><i class="fa-solid fa-calculator"></i></div>
+      <h3>Estimate your budget</h3><p>Plan costs by item and see a shopping list with real store links.</p>
+    </article>
+    <article class="cap c6 reveal">
+      <div style="display:flex;align-items:center;flex:1;flex-wrap:wrap;gap:10px"><div class="ico"><i class="fa-solid fa-heart"></i></div><div class="txt"><h3>Save your favourite designs</h3><p>Keep your generated rooms in My Gallery and come back to them any time.</p></div></div>
+      <a href="/gallery" class="btn btn-ghost">Open My Gallery</a>
+    </article>
+  </div>
+</section>
+ 
+<section class="compare-sec">
+  <div class="sec-head reveal"><div class="eyebrow on-dark">Before &amp; after</div><h2>See the <em>transformation</em></h2><p>Drag the line across the room. These are AI concept renders made with NS Design AI.</p></div>
+  <div class="tabs reveal">
+    <button class="on" data-room="Living Room">Living Room</button><button data-room="Bedroom">Bedroom</button><button data-room="Kitchen">Kitchen</button><button data-room="Bathroom">Bathroom</button>
+  </div>
+  <div class="compare reveal" id="compare" data-base="{{ url_for('static', filename='images/') }}">
+    <img class="before" src="{{ url_for('static', filename='images/living-room-before.jpeg') }}" alt="Living Room before">
+    <img class="after" src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="Living Room after AI redesign concept">
+    <span class="cmp-label l">BEFORE</span><span class="cmp-label r">AFTER</span><div class="handle"></div>
+  </div>
+  <p class="cmp-note">Click or drag to compare</p>
+</section>
+ 
+<section class="styles-sec">
+  <div class="sec-head reveal"><div class="eyebrow on-dark">Four styles</div><h2>Choose your <em>look</em></h2><p>Every redesign follows one of four styles.</p></div>
+  <div class="style-row">
+    <a href="/design-ideas?style=Modern" class="style-card reveal"><img src="{{ url_for('static', filename='images/living-room-after.png') }}" alt=""><div><small>01</small><h3>Modern</h3><span>VIEW IDEAS →</span></div></a>
+    <a href="/design-ideas?style=Minimalist" class="style-card reveal" style="--i:1"><img src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt=""><div><small>02</small><h3>Minimalist</h3><span>VIEW IDEAS →</span></div></a>
+    <a href="/design-ideas?style=Scandinavian" class="style-card reveal" style="--i:2"><img src="{{ url_for('static', filename='images/kitchen-after.png') }}" alt=""><div><small>03</small><h3>Scandinavian</h3><span>VIEW IDEAS →</span></div></a>
+    <a href="/design-ideas?style=Luxury" class="style-card reveal" style="--i:3"><img src="{{ url_for('static', filename='images/Bathroom-after.png') }}" alt=""><div><small>04</small><h3>Luxury</h3><span>VIEW IDEAS →</span></div></a>
+  </div>
+</section>
+ 
+<section class="cta-sec">
+  <div class="eyebrow on-dark reveal">Start now</div>
+  <h2 class="reveal" style="--i:1">Ready to see your <em>room</em> differently?</h2>
+  <p class="reveal" style="--i:2">Upload one photo and get colours, layouts, a budget and a redesign.</p>
+  <a href="{{ '/studio' if session.get('user_id') else '/register' }}" class="btn btn-primary reveal" style="--i:3">Redesign Your Room <i class="fa-solid fa-arrow-right"></i></a>
+</section>
+ 
+{% include '_footer.html' %}
+{% include '_chatbot.html' %}
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
 </body>
 </html>

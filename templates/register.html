@@ -1,63 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register - NS Interior Studio AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register - NS Interior Studio AI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
-            <div>
-                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-                <div class="logo-sub">Transform Your Space with AI</div>
-            </div>
-        </div>
-        <div class="nav-wrapper" id="nav-links">
-            <span class="nav-highlight" id="nav-highlight"></span>
-            <ul class="nav-links-list">
-                <li><a href="/">Home</a></li>
-            </ul>
-        </div>
-    </nav>
-    <section class="register-section">
-    <div class="register-card">
-
-        <!-- LEFT: Form -->
-        <div class="register-form-side">
-            <h1>Registration</h1>
-            <form id="register-form" onsubmit="return handleRegister();">
-                <div class="input-box">
-                    <input type="text" id="reg-name" placeholder="Username" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="text" id="reg-email" placeholder="Email" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="reg-pass" placeholder="Password" required>
-                    <i class="fa-solid fa-lock toggle-eye" onclick="togglePassword('reg-pass', this)"></i>
-                </div>
-
-                <button type="submit" class="register-btn-main">Register</button>
-            </form>
-        </div>
-
-        <!-- RIGHT: Blob panel -->
-        <div class="register-blob-side">
-            <h2>Welcome Back!</h2>
-            <p>Already have an account?</p>
-            <a href="/login" class="ghost-btn">Login</a>
-        </div>
-
+<div class="bg-stage">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/living-room-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/kitchen-after.png') }}" alt="">
+  <img class="bg-layer" src="{{ url_for('static', filename='images/Bathroom-after.png') }}" alt="">
+  <div class="bg-shade"></div><div class="beam"></div><div class="beam b2"></div>
+  {% for i in range(18) %}<i class="dust" style="--x: {{ (i*37+11)%100 }}%; --d: {{ 9+(i*7)%10 }}s; --s: {{ 2+(i*3)%5 }}px; --w: -{{ (i*13)%14 }}s;"></i>{% endfor %}
+</div>
+{% include '_nav.html' %}
+ 
+<section class="auth-section">
+  <div class="auth-card flip">
+    <div class="showcase">
+      <img class="showcase-img" src="{{ url_for('static', filename='images/bedroom-after.png') }}" alt="">
+      <div class="show-mark">NS</div>
+      <h2>Your room, <em>reimagined.</em></h2>
+      <p>Create an account to analyse your room and generate a redesign.</p>
+      <a href="/login" class="ghost-btn">Login <i class="fa-solid fa-arrow-right"></i></a>
     </div>
+    <div class="form-side">
+      <div class="eyebrow on-dark">GET STARTED</div>
+      <h1>Register</h1>
+      <form id="register-form" onsubmit="return handleRegister();">
+        <div class="field"><input type="text" id="reg-name" placeholder=" " required><label>Username</label><i class="fa-solid fa-user"></i></div>
+        <div class="field"><input type="email" id="reg-email" placeholder=" " required><label>Email</label><i class="fa-solid fa-envelope"></i></div>
+        <div class="field"><input type="password" id="reg-pass" placeholder=" " required><label>Password</label><i class="fa-solid fa-lock" onclick="togglePassword('reg-pass', this)"></i></div>
+        <button type="submit" class="main-btn">REGISTER</button>
+      </form>
+    </div>
+  </div>
 </section>
-    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
 </body>
 </html>
+ 

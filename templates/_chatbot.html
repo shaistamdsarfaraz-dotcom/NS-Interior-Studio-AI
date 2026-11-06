@@ -1,0 +1,29 @@
+{# Shared chatbot "Lumi": put {% include '_chatbot.html' %} before the scripts and load js/chatbot.js on the page #}
+<div class="chatbot-widget" id="chatbotWidget">
+  <div class="chatbot-window" id="chatbotWindow" role="dialog" aria-label="Chat with Lumi">
+    <div class="cb-head">
+      <div class="cb-avatar" data-lumi="head"></div>
+      <div class="cb-title"><strong>Lumi</strong><span><i class="dot"></i> Your interior buddy</span></div>
+      <button type="button" class="cb-close" onclick="toggleChatbot()" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" aria-live="polite"></div>
+    <div class="chat-chips">
+      <button type="button" data-q="How do I upload a room photo?">📷 Upload a photo</button>
+      <button type="button" data-q="Suggest colours for my room">🎨 Colour ideas</button>
+      <button type="button" data-q="Help me pick a style">✨ Pick a style</button>
+      <button type="button" data-q="How does the budget planner work?">💰 Budget help</button>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbotInput" placeholder="Ask Lumi anything…" autocomplete="off" onkeypress="if(event.key==='Enter') sendChatMessage()">
+      <button type="button" onclick="sendChatMessage()" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+  <span class="chat-hint" id="chatHint">Hi, I'm Lumi! Need a hand? 💡</span>
+  <button type="button" class="chatbot-bubble" id="chatLauncher" onclick="toggleChatbot()" aria-label="Chat with Lumi"><span class="cb-glow"></span><span data-lumi="launcher"></span><i class="cb-dot"></i></button>
+</div>
+<script>
+(function(){var h=document.getElementById('chatHint');if(!h)return;
+setTimeout(function(){h.classList.add('show')},2500);
+setTimeout(function(){h.classList.remove('show')},10000);
+document.getElementById('chatLauncher').addEventListener('click',function(){h.classList.remove('show')});})();
+</script>

@@ -4,41 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Gallery - NS Interior Studio AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}">
 </head>
 <body>
+    <div class="blob b1"></div><div class="blob b2"></div>
+    {% include '_app_nav.html' %}
+ 
     <main class="gallery-page">
-        <a class="gallery-back" href="/studio"><i class="fa-solid fa-arrow-left"></i> Back to Upload</a>
-
+        <a class="gallery-back" href="{{ url_for('studio') }}"><i class="fa-solid fa-arrow-left"></i> Go to Upload Room</a>
+ 
         <header class="gallery-header">
-            <span class="gallery-eyebrow"><i class="fa-solid fa-sparkles"></i> Your design journey</span>
-            <h1>My <span>Design Gallery</span></h1>
-            <p>Compare your original rooms with their AI redesign concepts and revisit your favourite ideas.</p>
+            <span class="gallery-eyebrow">Your design journey</span>
+            <h1><span class="line"><span class="w" style="--w:0">My</span> <span class="w" style="--w:1"><em>Design</em></span></span><span class="line"><span class="w" style="--w:2">Gallery</span></span></h1>
+            <p class="reveal" style="--i:2">Compare your original rooms with their AI redesign concepts and revisit your favourite ideas.</p>
         </header>
-
-        <section class="gallery-tip">
+ 
+        <section class="gallery-tip reveal" style="--i:3">
             <div class="tip-icon"><i class="fa-solid fa-images"></i></div>
             <div>
                 <strong>Your before-and-after designs live here</strong>
                 <p>Every successful room analysis is saved privately to your account so you can compare, save, and discuss your favourite transformation.</p>
             </div>
+            {% if designs %}<span class="count-pill">{{ designs|length }} {{ 'design' if designs|length == 1 else 'designs' }}</span>{% endif %}
         </section>
-
+ 
         <section class="gallery-grid">
             {% for design in designs %}
-            <article class="design-card">
+            {# the database stores "generated/<file>" already, so only add the folder if it is missing #}
+            {% set gen = design.generated_image_path %}
+            {% set gen_path = (gen if gen.startswith('generated/') else 'generated/' + gen) if gen else None %}
+            <article class="design-card reveal" style="--i:0">
                 <div class="comparison-label"><i class="fa-solid fa-code-compare"></i> Before &amp; After</div>
                 <div class="comparison-grid">
                     <div class="comparison-image">
-                        <span>Before</span>
+                        <span>BEFORE</span>
                         <img src="{{ url_for('static', filename=design.image_path) }}" alt="Original {{ design.room_type }}">
                     </div>
                     <div class="comparison-image after-image">
-                        <span>AI Concept</span>
-                        <img src="{{ url_for('static', filename=('generated/' + design.generated_image_path) if design.generated_image_path else design.image_path) }}" alt="AI redesigned {{ design.room_type }}">
+                        <span>AI CONCEPT</span>
+                        {% if gen_path %}
+                        <img src="{{ url_for('static', filename=gen_path) }}" alt="AI redesigned {{ design.room_type }}">
+                        {% else %}
+                        <div class="no-ai"><i class="fa-regular fa-image"></i>The AI redesign could not be created for this room.</div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="design-info">
@@ -49,19 +60,25 @@
                     <span class="design-budget">{{ design.estimated_cost }}</span>
                 </div>
                 <div class="design-actions">
-                    <a href="{{ url_for('static', filename=('generated/' + design.generated_image_path) if design.generated_image_path else design.image_path) }}" target="_blank" rel="noopener noreferrer" class="view-btn"><i class="fa-solid fa-expand"></i> View Design</a>
+                    <a href="{{ url_for('static', filename=gen_path if gen_path else design.image_path) }}" target="_blank" rel="noopener noreferrer" class="view-btn" data-view><i class="fa-solid fa-expand"></i> View Design</a>
                     <a href="/delete_design/{{ design.id }}" class="delete-btn" onclick="return confirm('Delete this saved design?')"><i class="fa-regular fa-trash-can"></i> Delete</a>
                 </div>
             </article>
             {% else %}
-            <div class="empty-gallery">
+            <div class="empty-gallery reveal">
                 <i class="fa-regular fa-images"></i>
                 <h2>Your gallery is waiting</h2>
                 <p>Upload a room photo and generate your first AI before-and-after design.</p>
-                <a href="/studio" class="view-btn">Create My First Design</a>
+                <a href="{{ url_for('studio') }}" class="view-btn">Create My First Design</a>
             </div>
             {% endfor %}
         </section>
     </main>
+ 
+    {% include '_footer.html' %}
+    {% include '_chatbot.html' %}
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
 </body>
 </html>

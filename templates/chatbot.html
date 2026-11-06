@@ -1,0 +1,22 @@
+{# Shared chatbot: put {% include '_chatbot.html' %} before the scripts, and load js/chatbot.js on the page #}
+<div class="chatbot-widget">
+  <div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+      <div><i class="fa-solid fa-robot"></i> NS Design Assistant<small>Rooms, styles, colours &amp; budgets</small></div>
+      <span onclick="toggleChatbot()" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="bot-msg">Hello! Ask me about designing a living room, bedroom, kitchen or bathroom, colour ideas, or how to use the studio.</div>
+    </div>
+    <div class="chat-chips">
+      <button type="button" data-q="How do I upload a room photo?">Upload a photo</button>
+      <button type="button" data-q="Suggest colours for my living room">Colour ideas</button>
+      <button type="button" data-q="How does the budget planner work?">Budget help</button>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbotInput" placeholder="Ask about your room…" onkeypress="if(event.key==='Enter') sendChatMessage()">
+      <button onclick="sendChatMessage()" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+  <div class="chatbot-bubble" onclick="toggleChatbot()" role="button" aria-label="Open chat"><i class="fa-solid fa-comment-dots"></i></div>
+</div>

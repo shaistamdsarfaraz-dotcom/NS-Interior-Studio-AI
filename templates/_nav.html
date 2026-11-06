@@ -1,0 +1,20 @@
+{# Shared navbar: put {% include '_nav.html' %} right after <body> on every page #}
+{% set p = request.path %}
+<header class="navbar" id="navbar">
+  <a href="/" class="logo" aria-label="NS Design AI home">
+    <span class="logo-mark"><b>NS</b></span>
+    <span><span class="logo-text">NS DESIGN AI</span><span class="logo-sub" style="display:block">Interior Design Assistant</span></span>
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  <nav class="nav-wrapper" id="nav-links" aria-label="Main">
+    <ul class="nav-links-list">
+      <li><a href="/" class="{{ 'active' if p == '/' }}">Home</a></li>
+      <li><a href="/design-ideas" class="{{ 'active' if p.startswith('/design-ideas') }}">Design Ideas</a></li>
+      <li><a href="/about" class="{{ 'active' if p.startswith('/about') }}">About</a></li>
+      <li><a href="/contact" class="{{ 'active' if p.startswith('/contact') }}">Contact</a></li>
+    </ul>
+    <div class="nav-buttons">
+      <a href="/register" class="Register-btn">Register</a>
+    </div>
+  </nav>
+</header>

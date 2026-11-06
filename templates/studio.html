@@ -1,165 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NS Design AI - Upload Room Photo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/studio.css') }}">
-    <style>
-        .upload-shell { position: relative; }
-        .upload-box { position: relative; overflow: hidden; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
-        .upload-box.is-dragging, .upload-box.has-file { border-color: #7045bd !important; background: #f4efff !important; transform: translateY(-2px); }
-        .upload-preview { display: none; width: 100%; max-height: 230px; object-fit: cover; border-radius: 14px; margin-top: 12px; box-shadow: 0 8px 22px rgba(70, 48, 132, .16); }
-        .upload-preview.visible { display: block; }
-        .file-meta { display: none; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; padding: 9px 11px; border-radius: 10px; background: #f5f1ff; color: #66558b; font-size: 11px; }
-        .file-meta.visible { display: flex; }
-        .clear-file { border: 0; background: transparent; color: #8b5fc2; cursor: pointer; font: inherit; font-size: 11px; font-weight: 600; }
-        .analyze-btn { transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease; }
-        .analyze-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(94, 48, 169, .24); }
-        .analyze-btn:disabled { opacity: .62; cursor: wait; transform: none; }
-        .analysis-progress { display: none; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: #eee8ff; color: #5e4193; font-size: 12px; }
-        .analysis-progress.visible { display: flex; }
-        .progress-spinner { width: 16px; height: 16px; border: 2px solid #d8c9fb; border-top-color: #6943b8; border-radius: 50%; animation: studio-spin .8s linear infinite; }
-        @keyframes studio-spin { to { transform: rotate(360deg); } }
-        .feature-item, .tip-item { transition: transform .18s ease, box-shadow .18s ease; }
-        .feature-item:hover, .tip-item:hover { transform: translateY(-3px); }
-        .studio-helper { margin-top: 8px; color: #817b96; font-size: 12px; line-height: 1.5; }
-        .user-avatar-fallback { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: linear-gradient(135deg, #6d43b8, #b78be8); color: #fff; font-size: 13px; font-weight: 700; }
-        .form-row select { min-width: 0; }
-        .form-row select:focus, .form-row input:focus { outline: 2px solid rgba(112, 69, 189, .2); border-color: #7045bd; }
-        @media (max-width: 700px) { .studio-content { padding: 18px !important; } .form-row { grid-template-columns: 1fr !important; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NS Design AI - AI Design Studio</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/studio.css') }}">
 </head>
 <body>
-<div class="studio-layout">
-    <aside class="studio-sidebar">
-        <div class="sidebar-logo">
-            <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
-            <div>
-                <div class="logo-text">NS <span class="accent">DESIGN</span> AI</div>
-                <div class="logo-sub">AI Interior Design Assistant</div>
-            </div>
+<div class="blob b1"></div><div class="blob b2"></div>
+{% include '_app_nav.html' %}
+ 
+<main class="studio">
+  <div>
+    <div class="crumb"><a href="/">Home</a> &nbsp;/&nbsp; AI Design Studio</div>
+    <h1><span class="line"><span class="w" style="--w:0">Upload your</span></span><span class="line"><span class="w" style="--w:1"><em>room photo</em></span></span></h1>
+    <p class="lead reveal" style="--i:2">Let our AI inspect the colours, furniture and layout of your room, then see a redesign in the style and budget you choose.</p>
+ 
+    <form id="uploadForm" class="form-card reveal" style="--i:3" action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="fblock">
+        <p class="fstep"><b>1</b> Your room photo</p>
+        <label for="roomPhoto" class="upload-box" id="uploadBox">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span class="upload-title">Choose room photo</span>
+          <span class="upload-sub">Drag &amp; drop or click to upload</span>
+          <img id="uploadPreview" class="upload-preview" alt="Room photo preview"><span class="scan"></span>
+        </label>
+        <input type="file" id="roomPhoto" name="room_photo" accept="image/jpeg,image/png,image/webp" hidden required>
+        <div class="file-meta" id="fileMeta"><span id="fileName">No file selected</span><button class="clear-file" id="clearFile" type="button">Remove</button></div>
+        <p class="formats">JPG, PNG or WEBP &nbsp;·&nbsp; up to 10 MB</p>
+      </div>
+      <div class="fblock"><p class="fstep"><b>2</b> Room type</p><div class="tiles"><label class="tile"><input type="radio" name="room_type" value="Living Room" checked><span><i class="fa-solid fa-couch"></i>Living Room</span></label><label class="tile"><input type="radio" name="room_type" value="Bedroom"><span><i class="fa-solid fa-bed"></i>Bedroom</span></label><label class="tile"><input type="radio" name="room_type" value="Kitchen"><span><i class="fa-solid fa-kitchen-set"></i>Kitchen</span></label><label class="tile"><input type="radio" name="room_type" value="Bathroom"><span><i class="fa-solid fa-bath"></i>Bathroom</span></label></div></div>
+      <div class="fblock"><p class="fstep"><b>3</b> Design style</p><div class="tiles"><label class="tile style"><input type="radio" name="design_style" value="Modern" checked><span>Modern<small>Clean lines, simple shapes</small></span></label><label class="tile style"><input type="radio" name="design_style" value="Minimalist"><span>Minimalist<small>Less, but better</small></span></label><label class="tile style"><input type="radio" name="design_style" value="Scandinavian"><span>Scandinavian<small>Light woods, cosy textures</small></span></label><label class="tile style"><input type="radio" name="design_style" value="Luxury"><span>Luxury<small>Rich materials, warm light</small></span></label></div></div>
+      <div class="fblock">
+        <p class="fstep"><b>4</b> Budget</p>
+        <div class="budget-read" aria-live="polite">
+          <span class="br-label">Your budget range</span>
+          <strong id="budgetReadout">₹10,000 – ₹25,000</strong>
+          <small id="budgetWords">₹10,000 – ₹25,000</small>
         </div>
-        <nav class="sidebar-nav">
-            <a href="/" class="sidebar-link active"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="/design-ideas" class="sidebar-link"><i class="fa-regular fa-lightbulb"></i> Design Ideas</a>
-            <a href="/budget-planner" class="sidebar-link"><i class="fa-solid fa-table-cells"></i> Budget Planner</a>
-            <a href="/gallery" class="sidebar-link"><i class="fa-regular fa-image"></i> Gallery</a>
-            <a href="/about" class="sidebar-link"><i class="fa-regular fa-circle-question"></i> About</a>
-            <a href="/contact" class="sidebar-link"><i class="fa-regular fa-envelope"></i> Contact</a>
-        </nav>
-        <div class="sidebar-tagline"><p>Better Spaces<br>Brighter Lives <i class="fa-regular fa-heart"></i></p></div>
-    </aside>
-
-    <div class="studio-main">
-        <header class="studio-topbar">
-            <div class="studio-breadcrumb"><i class="fa-solid fa-house"></i><span>Home</span><i class="fa-solid fa-chevron-right"></i><strong>Room Analysis</strong></div>
-            <div class="user-chip-container">
-                <button class="user-chip" id="userChip" type="button">
-                    {% if session.get('avatar') %}
-                    <img src="{{ url_for('static', filename='uploads/' + session.get('avatar')) }}" alt="{{ username }} profile picture">
-                    {% else %}
-                    <span class="user-avatar-fallback" aria-label="{{ username }} profile picture">{{ (username or 'U')[0]|upper }}</span>
-                    {% endif %}
-                    <span>Hello, {{ username }}</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="user-dropdown" id="userDropdown">
-                    <a href="/profile" class="dropdown-item"><i class="fa-regular fa-user"></i> Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="/logout" class="dropdown-item logout-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="studio-content">
-            <section class="upload-section">
-                <span class="step-label">STEP 1</span>
-                <h1>Upload Your <br><span>Room Photo</span></h1>
-                <p>Let our AI inspect every visible detail and suggest a design tailored to your style, needs, and budget.</p>
-
-                <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
-                    <div class="upload-shell">
-                        <label for="roomPhoto" class="upload-box" id="uploadBox">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                            <span class="upload-title" id="uploadLabel">Choose Room Photo</span>
-                            <span class="upload-sub">Drag &amp; drop or click to upload</span>
-                            <img id="uploadPreview" class="upload-preview" alt="Room photo preview">
-                        </label>
-                        <input type="file" id="roomPhoto" name="room_photo" accept="image/jpeg,image/png,image/webp" hidden required>
-                        <div class="file-meta" id="fileMeta"><span id="fileName">No file selected</span><button class="clear-file" id="clearFile" type="button">Remove</button></div>
-                    </div>
-                    <p class="upload-formats">Supported: JPG, PNG, WEBP &nbsp;|&nbsp; Maximum: 10MB</p>
-
-                    <div class="form-row">
-                        <select id="roomType" name="room_type" class="room-select" required>
-                            <option value="Living Room">Living Room</option>
-                            <option value="Bedroom">Bedroom</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Bathroom">Bathroom</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <select id="designStyle" name="design_style" class="room-select" required>
-                            <option value="Modern">Modern</option>
-                            <option value="Minimalist">Minimalist</option>
-                            <option value="Scandinavian">Scandinavian</option>
-                            <option value="Luxury">Luxury</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <select id="budgetRange" name="budget_range" class="room-select" required>
-                            <option value="100000-500000">₹1 lakh – ₹5 lakh</option>
-                            <option value="500000-1000000">₹5 lakh – ₹10 lakh</option>
-                            <option value="2000000-3000000">₹20 lakh – ₹30 lakh</option>
-                            <option value="3000000-5000000">₹30 lakh – ₹50 lakh</option>
-                            <option value="10000000-50000000">₹1 crore – ₹5 crore</option>
-                            <option value="50000000-100000000">₹5 crore – ₹10 crore</option>
-                        </select>
-                        <input type="hidden" id="estimatedCost" name="estimated_cost" value="300000">
-                    </div>
-
-                    <button type="submit" class="analyze-btn" id="analyzeButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze My Room</button>
-                    <div class="analysis-progress" id="analysisProgress"><span class="progress-spinner"></span><span>AI is inspecting colors, furniture, materials, lighting, and layout…</span></div>
-                </form>
-                <p class="studio-helper"><i class="fa-solid fa-shield-halved"></i> Your original photo is used only to create your room analysis.</p>
-            </section>
-
-            <section class="collage-section">
-                <div class="collage-wrap">
-                    <img src="{{ url_for('static', filename='images/before studio.jpeg') }}" class="collage-img before-img" alt="Before room">
-                    <span class="collage-tag before-tag">Before</span>
-                    <img src="{{ url_for('static', filename='images/after studio.jpg') }}" class="collage-img after-img" alt="After AI design">
-                    <span class="collage-tag after-tag">After</span>
-                </div>
-                <p class="collage-caption">From Ideas to Beautiful Spaces <i class="fa-regular fa-heart"></i></p>
-            </section>
+        <div class="scale" aria-hidden="true">
+          <div class="scale-track"><i id="scaleFill"></i></div>
+          <div class="scale-ticks"><span style="left:0%">₹10,000</span><span style="left:50%">₹50,000</span><span style="left:100%">₹1 lakh</span></div>
         </div>
-
-        <div class="features-row">
-            <div class="feature-item"><div class="feature-icon purple"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h4>Complete AI Analysis</h4><p>See colors, furniture, materials, and layout details from your photo.</p></div>
-            <div class="feature-item"><div class="feature-icon blue"><i class="fa-solid fa-palette"></i></div><h4>Every Color Detected</h4><p>Get a rich palette with HEX, RGB, percentage, and location.</p></div>
-            <div class="feature-item"><div class="feature-icon orange"><i class="fa-solid fa-indian-rupee-sign"></i></div><h4>Budget Friendly</h4><p>Design suggestions that fit your style and your budget.</p></div>
-            <div class="feature-item"><div class="feature-icon pink"><i class="fa-regular fa-heart"></i></div><h4>Your Space, Your Way</h4><p>Personalized ideas for every room in your home.</p></div>
-        </div>
+        <div class="bgroup"><span class="bglabel">Choose your range</span><div class="btiles"><label class="btile"><input type="radio" name="budget_range" value="10000-25000" checked><span class="bt-main"></span><span class="bt-sub"></span></label><label class="btile"><input type="radio" name="budget_range" value="25000-50000"><span class="bt-main"></span><span class="bt-sub"></span></label><label class="btile"><input type="radio" name="budget_range" value="50000-75000"><span class="bt-main"></span><span class="bt-sub"></span></label><label class="btile"><input type="radio" name="budget_range" value="75000-100000"><span class="bt-main"></span><span class="bt-sub"></span></label></div></div>
+        <input type="hidden" id="estimatedCost" name="estimated_cost" value="17500">
+      </div>
+      <button type="submit" class="analyze-btn" id="analyzeButton"><i class="fa-solid fa-wand-magic-sparkles"></i> ANALYSE &amp; REDESIGN MY ROOM</button>
+      <p class="helper"><i class="fa-solid fa-shield-halved"></i> Your photo is used only to create your room analysis and redesign.</p>
+    </form>
+  </div>
+ 
+  <aside class="visual">
+    <div class="collage reveal" style="--i:2">
+      <img class="c-img c-before" src="{{ url_for('static', filename='images/before studio.jpeg') }}" alt="Before room">
+      <span class="c-tag b">BEFORE</span>
+      <img class="c-img c-after" src="{{ url_for('static', filename='images/after studio.jpg') }}" alt="After AI design">
+      <span class="c-tag a">AFTER</span>
+      <span class="c-spark"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
     </div>
-
-    <aside class="studio-right">
-        <div class="tips-card">
-            <h4><i class="fa-regular fa-lightbulb"></i> Get a Better Analysis</h4>
-            <div class="tip-item"><div class="tip-icon"><i class="fa-solid fa-camera"></i></div><p><strong>Use a clear</strong>, well-lit photo with minimal blur.</p></div>
-            <div class="tip-item"><div class="tip-icon"><i class="fa-solid fa-expand"></i></div><p><strong>Include the full room</strong>; a wide angle works best.</p></div>
-            <div class="tip-item"><div class="tip-icon"><i class="fa-solid fa-eye"></i></div><p><strong>Show the details</strong> so objects and materials are visible.</p></div>
-            <div class="tip-item"><div class="tip-icon"><i class="fa-solid fa-palette"></i></div><p><strong>Try different rooms</strong> to compare your design ideas.</p></div>
-        </div>
-        <div class="studio-side-note"><i class="fa-solid fa-sparkles"></i><strong>What happens next?</strong><p>We’ll analyze your uploaded room and open a detailed results page with colors, objects, materials, and layout recommendations.</p></div>
-    </aside>
+    <div class="dark-card reveal" style="--i:3">
+      <h3>Get a <em>better</em> analysis</h3>
+      <div class="tip"><i class="fa-solid fa-camera"></i><span><strong>Use a clear, well-lit photo</strong> with minimal blur.</span></div>
+      <div class="tip"><i class="fa-solid fa-expand"></i><span><strong>Include the full room.</strong> A wide angle works best.</span></div>
+      <div class="tip"><i class="fa-solid fa-eye"></i><span><strong>Show the details</strong> so objects and materials are visible.</span></div>
+      <div class="tip"><i class="fa-solid fa-palette"></i><span><strong>Try different rooms</strong> and styles to compare ideas.</span></div>
+    </div>
+    <div class="next reveal" style="--i:4">
+      <h4>What happens next</h4>
+      <ol><li>We detect your wall colour, lighting and objects.</li><li>You get colour, layout and furniture suggestions.</li><li>A redesigned version of your room is generated.</li><li>You see a budget plan and a shopping list.</li></ol>
+    </div>
+  </aside>
+</main>
+ 
+<div class="busy" id="busy" role="status" aria-live="polite">
+  <div class="busy-card">
+    <div class="busy-img"><img id="busyImg" alt=""><span class="scan"></span></div>
+    <h3>Analysing <em>your room</em></h3>
+    <p id="busyStep"></p>
+    <div class="bar"><i id="busyBar"></i></div>
+    <small>This can take up to a minute. Please keep this page open.</small>
+  </div>
 </div>
-
+<div class="toast" id="toast" role="alert"></div>
+ 
+{% include '_footer.html' %}
+{% include '_chatbot.html' %}
 <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
 <script src="{{ url_for('static', filename='js/studio.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
 </body>
 </html>

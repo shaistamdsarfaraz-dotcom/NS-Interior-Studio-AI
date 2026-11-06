@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Planner - NS Design AI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/budget.css') }}">
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div>
+{% include '_app_nav.html' %}
+ 
+<main class="bp">
+  <div class="crumb"><a href="/studio">AI Studio</a> &nbsp;/&nbsp; Budget Planner</div>
+  <h1><span class="line"><span class="w" style="--w:0">Budget</span></span><span class="line"><span class="w" style="--w:1"><em>Planner</em></span></span></h1>
+  <p class="lead reveal" style="--i:2">Turn your room vision into a practical renovation plan.</p>
+ 
+  <section class="bp-card bp-setup-card reveal" style="--i:3">
+    <div class="bp-section-heading"><div><span class="bp-kicker">STEP 01</span><h3><i class="fa-regular fa-clipboard"></i> Set up your budget</h3></div><span class="bp-heading-badge"><i class="fa-solid fa-indian-rupee-sign"></i> INR planning</span></div>
+    <div class="bp-setup-form">
+      <div class="bp-field"><span class="flabel">Room type</span><div class="tiles"><label class="tile"><input type="radio" name="room" value="Living Room" checked><span><i class="fa-solid fa-couch"></i>Living Room</span></label><label class="tile"><input type="radio" name="room" value="Bedroom"><span><i class="fa-solid fa-bed"></i>Bedroom</span></label><label class="tile"><input type="radio" name="room" value="Kitchen"><span><i class="fa-solid fa-kitchen-set"></i>Kitchen</span></label><label class="tile"><input type="radio" name="room" value="Bathroom"><span><i class="fa-solid fa-bath"></i>Bathroom</span></label></div></div>
+      <div class="bp-field"><span class="flabel">Design style</span><div class="tiles"><label class="tile"><input type="radio" name="style" value="Modern" checked><span><i class="fa-solid fa-cube"></i>Modern</span></label><label class="tile"><input type="radio" name="style" value="Minimalist"><span><i class="fa-solid fa-minus"></i>Minimalist</span></label><label class="tile"><input type="radio" name="style" value="Scandinavian"><span><i class="fa-solid fa-leaf"></i>Scandinavian</span></label><label class="tile"><input type="radio" name="style" value="Luxury"><span><i class="fa-solid fa-gem"></i>Luxury</span></label></div></div>
+      <div class="bp-field"><label for="totalBudgetInput">Estimated budget</label><div class="bp-input-wrap"><span class="bp-input-prefix">₹</span><input type="number" id="totalBudgetInput" value="" placeholder="Enter budget" min="0" step="5000"></div><small>Use your complete renovation budget</small></div>
+      <button class="bp-create-btn" type="button" onclick="createBudget()"><i class="fa-solid fa-wand-magic-sparkles"></i><span>UPDATE PLAN</span><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </section>
+ 
+  <section class="bp-card bp-summary-card reveal" id="generatedSummary" style="display: none;">
+    <div class="bp-section-heading"><div><span class="bp-kicker" style="color:var(--bronze)">YOUR OVERVIEW</span><h3><i class="fa-regular fa-rectangle-list"></i> Budget summary</h3></div><span class="bp-live-badge"><span></span> Live calculation</span></div>
+    <div class="bp-summary-grid">
+      <div class="bp-summary-item"><div class="bp-summary-icon"><i class="fa-solid fa-wallet"></i></div><div><span class="bp-summary-label">Total budget</span><strong class="bp-summary-value" id="totalBudgetDisplay">₹0</strong></div></div>
+      <div class="bp-summary-item"><div class="bp-summary-icon"><i class="fa-solid fa-coins"></i></div><div><span class="bp-summary-label">Estimated cost</span><strong class="bp-summary-value" id="estimatedCostDisplay">₹0</strong></div></div>
+      <div class="bp-summary-item"><div class="bp-summary-icon"><i class="fa-solid fa-piggy-bank"></i></div><div><span class="bp-summary-label">Remaining</span><strong class="bp-summary-value" id="remainingDisplay">₹0</strong></div></div>
+      <div class="bp-summary-item bp-progress-item"><div class="bp-progress-head"><span>Budget used</span><strong id="usedPercent">0%</strong></div><div class="bp-progress-track"><div class="bp-progress-fill" id="usedBar" style="width:0%"></div></div><span class="bp-progress-sub"><span id="usedAmount">₹0</span> of <span id="totalAmount">₹0</span></span></div>
+    </div>
+  </section>
+ 
+  <section class="bp-breakdown-row reveal" id="generatedBreakdown" style="display: none;">
+    <div class="bp-card"><div class="bp-section-heading compact"><h3><i class="fa-solid fa-chart-pie"></i> Expense breakdown</h3></div><ul class="bp-legend-list" id="expenseBreakdownList"></ul></div>
+    <div class="bp-card bp-donut-card"><div class="bp-section-heading compact"><h3><i class="fa-solid fa-circle-notch"></i> Category distribution</h3></div><div class="bp-donut" id="donutChart"><div class="bp-donut-center"><strong id="donutTotal">₹0</strong><small>Estimated cost</small></div></div><p class="bp-chart-caption"><i class="fa-solid fa-circle-info"></i> Based on the costs in your table.</p></div>
+    <div class="bp-card"><div class="bp-section-heading compact"><h3><i class="fa-regular fa-lightbulb"></i> Recommended allocation</h3></div><ul class="bp-alloc-list"></ul></div>
+  </section>
+ 
+  <section class="bp-bottom-row reveal" id="generatedDetails" style="display: none;">
+    <div class="bp-card bp-shopping-card"><div class="bp-section-heading"><div><span class="bp-kicker">PLAN DETAILS</span><h3><i class="fa-solid fa-cart-shopping"></i> Shopping list &amp; expenses</h3></div><span class="bp-item-count" id="itemCount">0 items</span></div>
+      <div class="bp-table-wrap"><table class="bp-table" id="expenseTable"><thead><tr><th>#</th><th>Item</th><th>Category</th><th>Unit cost (₹)</th><th>Qty</th><th>Total (₹)</th><th>Actions</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
+      <div class="bp-table-actions"><button class="bp-add-btn" type="button" onclick="addExpenseRow()"><i class="fa-solid fa-plus"></i> Add expense</button><div class="bp-table-actions-right"><button class="bp-save-btn" type="button" onclick="saveBudget()"><i class="fa-regular fa-floppy-disk"></i> Save budget</button><button class="bp-download-btn" type="button" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download summary</button></div></div></div>
+    <aside class="bp-card bp-tips-card"><div class="bp-section-heading compact"><h3><i class="fa-regular fa-lightbulb"></i> Smart tips</h3></div>
+      <div class="bp-tip"><span class="bp-tip-num">1</span><div><strong>Prioritise essentials</strong><p>Cover flooring, paint, lighting, and key furniture before adding decorative pieces.</p></div></div>
+      <div class="bp-tip"><span class="bp-tip-num">2</span><div><strong>Choose flexible pieces</strong><p>Multi-functional furniture helps you get more value from every rupee.</p></div></div>
+      <div class="bp-tip"><span class="bp-tip-num">3</span><div><strong>Keep a 10–15% buffer</strong><p>Set aside a little extra for delivery, installation, and unexpected work.</p></div></div>
+      <div class="bp-tip-footer">Smart planning today,<br><strong>beautiful spaces tomorrow</strong></div></aside>
+  </section>
+</main>
+ 
+<div class="bp-toast" id="bpToast" role="status"></div>
+{% include '_footer.html' %}
+{% include '_chatbot.html' %}
+<script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/budget.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+</body>
+</html>

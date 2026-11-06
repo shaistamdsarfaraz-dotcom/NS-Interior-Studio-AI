@@ -1,0 +1,14 @@
+/* Shared by the logged-in pages (Studio, Gallery, Budget Planner, Profile) */
+.user-chip-container{position:relative}
+.user-chip{display:flex;align-items:center;gap:10px;padding:5px 14px 5px 5px;border:1px solid #ffffff2e;border-radius:99px;background:#ffffff12;color:#fff;font:400 12.5px var(--sans);cursor:pointer;transition:.3s}
+.user-chip:hover{border-color:var(--bronze);background:#ffffff1c}
+.user-chip img,.user-avatar-fallback{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.user-avatar-fallback{display:grid;place-items:center;background:var(--bronze);color:var(--charcoal);font-weight:600;font-size:14px}
+.user-chip i{font-size:10px;transition:transform .3s}.user-chip[aria-expanded="true"] i{transform:rotate(180deg)}
+.user-dropdown{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:190px;padding:8px;background:#1b1714;border:1px solid #ae89644d;border-radius:16px;box-shadow:0 24px 60px #000a;z-index:200}
+.user-dropdown.show{display:block;animation:ddIn .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes ddIn{from{opacity:0;transform:translateY(-8px) scale(.96)}}
+.dropdown-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#e9e1d6;font-size:13px;text-decoration:none;transition:.25s}
+.dropdown-item:hover{background:#ffffff12;color:var(--bronze)}.dropdown-item i{width:16px}
+.logout-item:hover{color:#f2a899}
+@media(max-width:1180px){.user-chip-container{width:100%}.user-chip{width:100%}.user-dropdown{position:static;margin-top:8px;box-shadow:none}}
